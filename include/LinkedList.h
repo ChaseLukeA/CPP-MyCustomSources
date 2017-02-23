@@ -15,9 +15,9 @@ template <class T>
 class LinkedList
 {
     public:
-        LinkedList() : m_Head(null), m_Tail(null) {};
+    LinkedList() : m_Head(null), m_Tail(null) {};
 		LinkedList(LinkedList& nodes);
-        virtual ~LinkedList();
+    virtual ~LinkedList();
 
 		bool addFirst(const T &element);
 		bool addLast(const T &element);
@@ -31,18 +31,18 @@ class LinkedList
 
     private:
         class Node
-		{
+        {
             public:
                 Node(T element = 0, Node *next = null) : m_Element(element), m_Next(next) {}
 
-				T m_Element;
-				Node* m_Next;
-		};
+        				T m_Element;
+        				Node* m_Next;
+		    };
 
-		Node* m_Head;
-		Node* m_Tail;
+    		Node* m_Head;
+    		Node* m_Tail;
 
-		const LinkedList& operator = (const LinkedList& nodes);
+    		const LinkedList& operator = (const LinkedList& nodes);
 };
 
 // LinkedList Definitions
@@ -104,7 +104,7 @@ inline bool LinkedList<T>::addFirst(const T &element)
 template<class T>
 inline bool LinkedList<T>::addLast(const T &element)
 {
-    Node *newTail =  new Node(element, null);
+    Node *newTail = new Node(element, null);
 
     if (m_Tail) m_Tail->m_Next = newTail;
 
@@ -128,7 +128,6 @@ inline bool LinkedList<T>::addBefore(const T &element, int position)
     Node* previous = current;
     int index = 1;
 
-    // find the requested position
     while (current->m_Next && index < position) {
         previous = current;
         current = current->m_Next;
