@@ -15,7 +15,7 @@ template <class T>
 class LinkedList
 {
     public:
-        LinkedList() : m_Head(null), m_Tail(null), m_Size(0) {};
+        LinkedList() : m_Head(null), m_Tail(null) {};
         LinkedList(LinkedList& nodes);
         virtual ~LinkedList();
 
@@ -43,7 +43,6 @@ class LinkedList
 
         Node* m_Head;
         Node* m_Tail;
-        int m_Size;
 
         const LinkedList& operator = (const LinkedList& nodes);
 };
@@ -54,25 +53,24 @@ class LinkedList
 template<class T>
 inline LinkedList<T>::LinkedList(LinkedList& nodes) : m_Head(null), m_Tail(null)
 {
-    if (!nodes.isEmpty())
+    if (nodes.isEmpty()) return;
+
+    Node* original = nodes.m_Head;
+    Node* copyOfOriginal = new Node(nodes.m_Head->m_Element, null);
+
+    m_Head = copyOfOriginal;
+    m_Tail = copyOfOriginal;
+
+    while (original->m_Next)
     {
-        Node* originalNode = nodes.m_Head;
-        Node* copiedNode = new Node(nodes.m_Head->m_Element, null);
+        original = original->m_Next;
 
-        m_Head = copiedNode;
-        m_Tail = copiedNode;
+        Node* newcopyOfOriginal;
+        newcopyOfOriginal = new Node(original->m_Element, null);
 
-        while (originalNode->m_Next)
-        {
-            originalNode = originalNode->m_Next;
-
-            Node* newCopiedNode;
-            newCopiedNode = new Node(originalNode->m_Element, null);
-
-            copiedNode->m_Next = newCopiedNode;
-            m_Tail = newCopiedNode;
-            copiedNode = copiedNode->m_Next;
-        }
+        copyOfOriginal->m_Next = newcopyOfOriginal;
+        m_Tail = newcopyOfOriginal;
+        copyOfOriginal = copyOfOriginal->m_Next;
     }
 }
 
@@ -124,27 +122,23 @@ inline bool LinkedList<T>::addBefore(const T &element, int position)
 {
     if (position < 0) return false;
     if (position == 0) this->addFirst(element);
+    if (position >= getSize()) return false;
 
     Node *newElement = new Node(element, null);
 
     Node* current = m_Head;
     Node* previous = current;
-    int index = 1;
+    int currentPosition = 1;
 
-    while (current->m_Next && index < position)
+    while (current->m_Next && currentPosition < position)
     {
         previous = current;
         current = current->m_Next;
-        index++;
+        currentPosition++;
     }
 
-    // if requested position is greater than or equal to the total number of elements, just append it
-    if (!current->m_Next) { this->addLast(element); return true; }
-
-    // set new node's next
     newElement->m_Next = current->m_Next;
 
-    // set previous node's next
     current->m_Next = newElement;
 
     return true;
@@ -156,26 +150,22 @@ inline bool LinkedList<T>::addAfter(const T &element, int position)
 {
     if (position < 0) return false;
 
+    if (position >= getSize()) { this->addLast(element); return true; }
+
     Node *newElement = new Node(element, null);
 
     Node* current = m_Head;
     Node* previous = current;
-    int index = 0;
+    int currentPosition = 0;
 
-    // find the requested position
-    while (current->m_Next && index < position) {
+    while (current->m_Next && currentPosition < position) {
         previous = current;
         current = current->m_Next;
-        index++;
+        currentPosition++;
     }
 
-    // if requested position is greater than or equal to the total number of elements, just append it
-    if (!current->m_Next) { this->addLast(element); return true; }
-
-    // set new node's next
     newElement->m_Next = current->m_Next;
 
-    // set previous node's next
     current->m_Next = newElement;
 
     return true;
@@ -209,14 +199,12 @@ inline bool LinkedList<T>::removeLast()
         current = current->m_Next;
     }
 
-    // check if only element in the list and if it is, set head to null
     if (current == previous) m_Head = null;
 
-    // delete last element
     delete current;
-    // set tail to previous to last (if only element, tail is also set to null because it was same as current)
+
     m_Tail = previous;
-    // set previous to last's next to null (if only element, does nothing since previous is now null)
+
     previous->m_Next = null;
 
     return true;
@@ -230,24 +218,23 @@ inline bool LinkedList<T>::removeAt(int position)
 
     if (position == 0) { this->removeFirst(); return true; }
 
+    if (position >= getSize()) return false;
+
     Node* current = m_Head;
     Node* previous = current;
-    int index = 0;
+    int currentPosition = 0;
 
-    while (current->m_Next && index < position)
+    while (current->m_Next && currentPosition < position)
     {
         previous = current;
         current = current->m_Next;
-        index++;
+        currentPosition++;
     }
 
-    // out-of-range check (reached end of list and position still not reached)
-    if (!current->m_Next && index < position) return false;
-
-    // is specified position the last node?
     if (current == m_Tail) { this->removeLast(); return true; }
 
     previous->m_Next = current->m_Next;
+
     delete current;
 
     return true;
