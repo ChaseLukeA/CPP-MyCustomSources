@@ -15,19 +15,21 @@ template <class T>
 class LinkedList
 {
     public:
-    LinkedList() : m_Head(null), m_Tail(null) {};
-		LinkedList(LinkedList& nodes);
-    virtual ~LinkedList();
+        LinkedList() : m_Head(null), m_Tail(null), m_Size(0) {};
+        LinkedList(LinkedList& nodes);
+        virtual ~LinkedList();
 
-		bool addFirst(const T &element);
-		bool addLast(const T &element);
-		bool addBefore(const T &element, int position);
-		bool addAfter(const T &element, int position);
-		bool removeFirst();
-		bool removeLast();
-		bool removeAt(int position);
-		bool isEmpty() const { return m_Head == null; };
-		void print();
+        bool addFirst(const T &element);
+        bool addLast(const T &element);
+        bool addBefore(const T &element, int position);
+        bool addAfter(const T &element, int position);
+        bool removeFirst();
+        bool removeLast();
+        bool removeAt(int position);
+
+        int getSize();
+        bool isEmpty() const { return m_Head == null; };
+        void print();
 
     private:
         class Node
@@ -35,14 +37,15 @@ class LinkedList
             public:
                 Node(T element = 0, Node *next = null) : m_Element(element), m_Next(next) {}
 
-        				T m_Element;
-        				Node* m_Next;
-		    };
+                T m_Element;
+                Node* m_Next;
+        };
 
-    		Node* m_Head;
-    		Node* m_Tail;
+        Node* m_Head;
+        Node* m_Tail;
+        int m_Size;
 
-    		const LinkedList& operator = (const LinkedList& nodes);
+        const LinkedList& operator = (const LinkedList& nodes);
 };
 
 // LinkedList Definitions
@@ -128,7 +131,8 @@ inline bool LinkedList<T>::addBefore(const T &element, int position)
     Node* previous = current;
     int index = 1;
 
-    while (current->m_Next && index < position) {
+    while (current->m_Next && index < position)
+    {
         previous = current;
         current = current->m_Next;
         index++;
@@ -247,6 +251,23 @@ inline bool LinkedList<T>::removeAt(int position)
     delete current;
 
     return true;
+}
+
+// Get the number of elements in the LinkedList
+template<class T>
+inline int LinkedList<T>::getSize()
+{
+    int numberOfElements = 0;
+
+    Node* element = m_Head;
+
+    while (element)
+    {
+        ++numberOfElements;
+        element = element->m_Next;
+    }
+
+    return numberOfElements;
 }
 
 // Print the entire list of nodes
