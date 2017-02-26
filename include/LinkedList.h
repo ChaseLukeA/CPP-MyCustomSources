@@ -14,6 +14,21 @@ using namespace std;
 template <class T>
 class LinkedList
 {
+    private:
+        class Node
+        {
+            public:
+                Node(T element = 0, Node *next = null) : m_Element(element), m_Next(next) {}
+
+                T m_Element;
+                Node* m_Next;
+        };
+
+        Node* m_Head;
+        Node* m_Tail;
+
+        const LinkedList& operator = (const LinkedList& nodes);
+
     public:
         class Iterator
         {
@@ -51,14 +66,11 @@ class LinkedList
                 Iterator(){};
 
                 Node* m_CurrentNode;
-        }
+        };
 
         LinkedList() : m_Head(null), m_Tail(null) {};
         LinkedList(LinkedList& nodes);
         virtual ~LinkedList();
-
-        Iterator begin() { return Iterator(m_Head); }
-        Iterator end() { return Iterator(null); }
 
         bool addFirst(const T &element);
         bool addLast(const T &element);
@@ -68,24 +80,12 @@ class LinkedList
         bool removeLast();
         bool removeAt(int position);
 
+        Iterator begin() { return Iterator(m_Head); };
+        Iterator end() { return Iterator(null); };
+
         int getSize();
         bool isEmpty() const { return m_Head == null; };
         void print();
-
-    private:
-        class Node
-        {
-            public:
-                Node(T element = 0, Node *next = null) : m_Element(element), m_Next(next) {}
-
-                T m_Element;
-                Node* m_Next;
-        };
-
-        Node* m_Head;
-        Node* m_Tail;
-
-        const LinkedList& operator =(const LinkedList& nodes);
 };
 
 // LinkedList Definitions
@@ -97,7 +97,7 @@ inline LinkedList<T>::LinkedList(LinkedList& nodes) : m_Head(null), m_Tail(null)
     if (nodes.isEmpty()) return;
 
     Node* original = nodes.m_Head;
-    Node* copyOfOriginal = new Node(nodes.m_Head->m_Element, null);
+    Node* copyOfOriginal = new Node(original->m_Element, null);
 
     m_Head = copyOfOriginal;
     m_Tail = copyOfOriginal;

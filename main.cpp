@@ -5,7 +5,7 @@ using namespace std;
 
 int main()
 {
-    LinkedList<string> romanNumberals;
+    LinkedList<string> romanNumerals;
 
     string i = "First";
     string ii = "Second";
@@ -19,29 +19,63 @@ int main()
     string x = "Tenth";
     string n = "Nth";
 
-    romanNumberals.addLast(ii);
-    romanNumberals.addLast(iii);
-    romanNumberals.addLast(v);
-    romanNumberals.addBefore(iv, 2);
-    romanNumberals.addFirst(i);
-    romanNumberals.addAfter(vi, 8);
-    romanNumberals.addLast(ix);
-    romanNumberals.addAfter(vii, 5);
-    romanNumberals.addBefore(viii, 7);
-    romanNumberals.addFirst(n);
-    romanNumberals.addLast(n);
-    romanNumberals.removeAt(0);
-    romanNumberals.addAfter(x, 10);
-    romanNumberals.removeAt(9);
-    romanNumberals.removeAt(10);
+    romanNumerals.addLast(ii);
+    romanNumerals.addLast(iii);
+    romanNumerals.addLast(v);
+    romanNumerals.addBefore(iv, 2);
+    romanNumerals.addFirst(i);
+    romanNumerals.addAfter(vi, 8);
+    romanNumerals.addLast(ix);
+    romanNumerals.addAfter(vii, 5);
+    romanNumerals.addBefore(viii, 7);
+    romanNumerals.addFirst(n);
+    romanNumerals.addLast(n);
+    romanNumerals.removeAt(0);
+    romanNumerals.addAfter(x, 10);
+    romanNumerals.removeAt(9);
+    romanNumerals.removeAt(10);
 
-    cout << "Roman Numerals:" << endl;
-    romanNumberals.print();
+    cout << "Roman Numerals (" << romanNumerals.getSize() << " elements):" << endl;
+    romanNumerals.print();
 
-    delete &romanNumberals;
+    LinkedList<string> romanNumeralsCopy(romanNumerals);
 
-    cout << endl << "Roman Numerals:" << endl;
-    romanNumberals.print();
+    delete &romanNumerals;
+
+    cout << endl << "Roman Numerals (" << romanNumerals.getSize() << " elements):" << endl;
+    romanNumerals.print();
+
+    LinkedList<string> romanNumeralsEmptyCopy(romanNumerals);
+
+    cout << endl << "Roman Numerals Empty Copy (" << romanNumeralsEmptyCopy.getSize() << " elements):" << endl;
+    romanNumeralsEmptyCopy.print();
+
+    cout << endl << "Roman Numerals Copy (" << romanNumeralsCopy.getSize() << " elements):" << endl;
+    romanNumeralsCopy.print();
+
+    delete &romanNumeralsEmptyCopy;
+
+    cout << endl << endl << "Testing Iterator..." << endl << endl;
+
+    for (LinkedList<string>::Iterator itr = romanNumeralsCopy.begin();
+    itr != romanNumeralsCopy.end(); itr++)
+    {
+        cout << (*itr) << endl;
+    }
+
+    int choice = 0;
+    cout << endl << "Select a number to see what value it contains: ";
+    cin >> choice;
+
+    LinkedList<string>::Iterator itr = romanNumeralsCopy.begin();
+    int count = 1;
+    while (count < choice)
+    {
+        count++;
+        itr++;
+    }
+
+    cout << endl << "Number " << choice << " is \"" << (*itr) << "\"" << endl;
 
     return 0;
 }

@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1488142269 source:c:\users\chase\onedrive - university of wisconsin-stout\development\cpp\cpp-mycustomsources\main.cpp
+	<iostream>
+	"LinkedList.h"
+
+1488143868 c:\users\chase\onedrive - university of wisconsin-stout\development\cpp\cpp-mycustomsources\include\linkedlist.h
+	<iostream>
+
