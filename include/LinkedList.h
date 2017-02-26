@@ -27,7 +27,7 @@ class LinkedList
         Node* m_Head;
         Node* m_Tail;
 
-        const LinkedList& operator = (const LinkedList& nodes);
+        const LinkedList& operator =(const LinkedList& nodes);
 
     public:
         class Iterator
@@ -35,10 +35,7 @@ class LinkedList
             public:
                 Iterator(Node* node) : m_CurrentNode(node) {}
 
-                T operator *()
-                {
-                    return m_CurrentNode->m_Element;
-                }
+                T operator *() { return m_CurrentNode->m_Element; }
 
                 Iterator& operator ++()
                 {
@@ -53,22 +50,17 @@ class LinkedList
                     return iter;
                 }
 
-                bool operator ==(const Iterator& rightSide) const
-                {
-                    return (m_CurrentNode == rightSide.m_CurrentNode);
-                }
+                bool operator ==(const Iterator& rightSide) const { return (m_CurrentNode == rightSide.m_CurrentNode); }
 
-                bool operator !=(const Iterator& rightSide) const
-                {
-                    return (m_CurrentNode != rightSide.m_CurrentNode);
-                }
+                bool operator !=(const Iterator& rightSide) const { return (m_CurrentNode != rightSide.m_CurrentNode); }
+
             private:
-                Iterator(){};
+                Iterator() {}
 
                 Node* m_CurrentNode;
         };
 
-        LinkedList() : m_Head(null), m_Tail(null) {};
+        LinkedList() : m_Head(null), m_Tail(null) {}
         LinkedList(LinkedList& nodes);
         virtual ~LinkedList();
 
@@ -80,11 +72,11 @@ class LinkedList
         bool removeLast();
         bool removeAt(int position);
 
-        Iterator begin() { return Iterator(m_Head); };
-        Iterator end() { return Iterator(null); };
+        Iterator begin() { return Iterator(m_Head); }
+        Iterator end() { return Iterator(null); }
 
         int getSize();
-        bool isEmpty() const { return m_Head == null; };
+        bool isEmpty() const { return m_Head == null; }
         void print();
 };
 

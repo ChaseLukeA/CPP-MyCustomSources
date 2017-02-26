@@ -55,7 +55,7 @@ int main()
 
     delete &romanNumeralsEmptyCopy;
 
-    cout << endl << endl << "Testing Iterator..." << endl << endl;
+    cout << endl << endl << "Printing Roman Numerals Copy using Iterator..." << endl;
 
     for (LinkedList<string>::Iterator itr = romanNumeralsCopy.begin();
     itr != romanNumeralsCopy.end(); itr++)
