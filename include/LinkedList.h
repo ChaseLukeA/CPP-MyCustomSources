@@ -15,9 +15,50 @@ template <class T>
 class LinkedList
 {
     public:
+        class Iterator
+        {
+            public:
+                Iterator(Node* node) : m_CurrentNode(node) {}
+
+                T operator *()
+                {
+                    return m_CurrentNode->m_Element;
+                }
+
+                Iterator& operator ++()
+                {
+                    m_CurrentNode = m_CurrentNode->m_Next;
+                    return *this;
+                }
+
+                Iterator operator ++(int)
+                {
+                    Iterator iter = *this;
+                    m_CurrentNode = m_CurrentNode->m_Next;
+                    return iter;
+                }
+
+                bool operator ==(const Iterator& rightSide) const
+                {
+                    return (m_CurrentNode == rightSide.m_CurrentNode);
+                }
+
+                bool operator !=(const Iterator& rightSide) const
+                {
+                    return (m_CurrentNode != rightSide.m_CurrentNode);
+                }
+            private:
+                Iterator(){};
+
+                Node* m_CurrentNode;
+        }
+
         LinkedList() : m_Head(null), m_Tail(null) {};
         LinkedList(LinkedList& nodes);
         virtual ~LinkedList();
+
+        Iterator begin() { return Iterator(m_Head); }
+        Iterator end() { return Iterator(null); }
 
         bool addFirst(const T &element);
         bool addLast(const T &element);
@@ -44,7 +85,7 @@ class LinkedList
         Node* m_Head;
         Node* m_Tail;
 
-        const LinkedList& operator = (const LinkedList& nodes);
+        const LinkedList& operator =(const LinkedList& nodes);
 };
 
 // LinkedList Definitions
