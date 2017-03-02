@@ -1,10 +1,25 @@
 #include <iostream>
+#include <sstream>
 #include "LinkedList.h"
+#include "Queue.h"
+#include "Stack.h"
 
 using namespace std;
 
+
+/* forward declarations of helper functions */
+template <typename T>
+string toString(T number);
+
+string ordinalSuffix(int number);
+
+
 int main()
 {
+    cout << "----------------------------------------------------" << endl;
+    cout << "  LinkedList testing:" << endl;
+    cout << "----------------------------------------------------" << endl << endl;
+
     LinkedList<string> romanNumerals;
 
     string i = "First";
@@ -75,7 +90,71 @@ int main()
         itr++;
     }
 
-    cout << endl << "Number " << choice << " is \"" << (*itr) << "\"" << endl;
+    cout << endl << "Number " << choice << " is \"" << (*itr) << "\"" << endl << endl;
+
+    cout << "----------------------------------------------------" << endl;
+    cout << "  Stack and Queue testing:" << endl;
+    cout << "----------------------------------------------------" << endl << endl;
+
+    Queue<int> numbersQueue;
+    Stack<int> numbersStack;
+    int numbersTotal = 0;
+    int number;
+
+    while (number != -1)
+    {
+        cout << "Enter the " << ordinalSuffix(++numbersTotal) << " number for the Stack and Queue: ";
+        cin >> number;
+        if (number != -1)
+        {
+            numbersQueue.enQueue(number);
+            numbersStack.push(number);
+        }
+    }
+
+    // saving the final size because otherwise it decreases on .deQueue() and won't release all queued items
+    numbersTotal = numbersQueue.size();
+
+    cout << endl << "Releasing " << numbersTotal << " numbers from the Queue..." << endl << endl;
+
+    for (int i = 0; i < numbersTotal; i++)
+    {
+        cout << "Released '" << numbersQueue.front() << "' from the Queue!" << endl;
+        numbersQueue.deQueue();
+    }
+
+    cout << endl << "Releasing " << numbersTotal << " numbers from the Stack..." << endl << endl;
+
+    for (int i = 0; i < numbersTotal; i++)
+    {
+        cout << "Released '" << numbersStack.top() << "' from the Stack!" << endl;
+        numbersStack.pop();
+    }
 
     return 0;
+}
+
+// I wanted a simple way to convert any number to a string
+template <typename T>
+string toString(T number)
+{
+    ostringstream oss;
+    oss << number;
+    return oss.str();
+}
+
+// I previously came up with this formula in Objective-C, reusing it here in C++
+string ordinalSuffix(int number)
+{
+    switch (number%100)
+    {
+    case 1:
+        return toString(number) + "st";
+    case 2:
+        return toString(number) + "nd";
+    case 3:
+        return toString(number) + "rd";
+    default:
+        return toString(number) + "th";
+    }
 }

@@ -35,6 +35,8 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="include/LinkedList.h" />
+		<Unit filename="include/Queue.h" />
+		<Unit filename="include/Stack.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
