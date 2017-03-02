@@ -8,9 +8,6 @@ using namespace std;
 template<class T>
 class Stack
 {
-    private:
-        list<T> m_List;
-
     public:
         Stack() {};
         virtual ~Stack() {};
@@ -48,6 +45,8 @@ class Stack
             m_List.pop_front();
             return true;
         };
+    private:
+        list<T> m_List;
 };
 
 #endif // STACK_H

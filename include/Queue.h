@@ -8,9 +8,6 @@ using namespace std;
 template<class T>
 class Queue
 {
-    private:
-        list<T> m_List;
-
     public:
         Queue() {};
         virtual ~Queue() {};
@@ -48,6 +45,8 @@ class Queue
             m_List.pop_front();
             return true;
         };
+    private:
+        list<T> m_List;
 };
 
 #endif // QUEUE_H
